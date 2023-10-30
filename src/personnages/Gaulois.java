@@ -1,63 +1,55 @@
 package personnages;
 
 public class Gaulois {
-	private String nom;
-	private int force;
-	private int effetPotion = 1;
+    private String nom;
+    private int force;
+    private int effetPotion = 1;
 
-	public Gaulois(String nom, int force) {
-		this.nom = nom;
-		this.force = force;
-	}
+    public Gaulois(String nom, int force) {
+        this.nom = nom;
+        this.force = force;
+    }
 
-	public String getNom() {
-		return nom;
-	}
+    public String getNom() {
+        return nom;
+    }
 
-	public String frapper(Romain romain) {
-		int forceCoup = force / 3 * effetPotion; // Prend en compte l'effet de la potion
-		String message = nom + " envoie un grand coup dans la machoire de " + romain.getNom();
-		romain.recevoirCoup(forceCoup);
-		return message;
-	}
+    public void parler(String texte) {
+        System.out.println(prendreParole() + "« " + texte + "»");
+    }
 
-	@Override
-	public String toString() {
-		return "Gaulois [nom=" + nom + ", force=" + force + ", effetPotion=" + effetPotion + "]";
+    private String prendreParole() {
+        return "Le gaulois " + nom + " : ";
+    }
 
-	}
+    public void boirePotion(int forcePotion) {
+        effetPotion = forcePotion;
+        parler("Merci Druide, je sens que ma force est " + forcePotion + " fois décuplée.");
+    }
+    
+    public void frapper(Romain romain) {
+        System.out.println(nom + " envoie un grand coup dans la mâchoire de " + romain.getNom());
+        romain.recevoirCoup(force / 3);
+    }
 
-	public void boirePotion(int forcePotion) {
-		effetPotion = forcePotion;
-		parler("Merci Druide, je sens que ma force est " + effetPotion + " fois décuplée.");
-	}
+    @Override
+    public String toString() {
+        return "Gaulois [nom=" + nom + ", force=" + force + ", effetPotion=" + effetPotion + "]";
+    }
 
-	public String prendreParole() {
-		return " Le gaulois " + nom + " : ";
-	}
+    public static void main(String[] args) {
+        Gaulois asterix = new Gaulois("Astérix", 8);
 
-	public void recevoirCoup(int forceCoup) {
-		force -= forceCoup;
-		if (force > 0) {
-			parler("Aïe");
-		} else {
-			parler("J'abandonne...");
-		}
-	}
+        // Afficher le nom de l'objet
+        System.out.println(asterix.getNom());
 
-	public String parler(String texte) {
-		return prendreParole() + "<<" + texte + " >>";
-	}
+        // Utilisation des méthodes parler et frapper
+        asterix.parler("Salut, je suis Astérix !");
+        Romain romain = new Romain("César", 10);
+        asterix.frapper(romain);
 
-	public static void main(String[] args) {
-
-		Gaulois asterix = new Gaulois("Asterix", 8);
-		Romain romain = new Romain("Romainus", 10);
-		System.out.println(asterix.getNom());
-		System.out.println(asterix);
-		System.out.println(asterix.prendreParole());
-		System.out.println(asterix.parler("Ceci est un test"));
-		System.out.println(asterix.frapper(romain));
-
-	}
+        // Vérification des méthodes de la classe Romain
+        romain.parler("Je suis César, un Romain !");
+        romain.recevoirCoup(5);
+    }
 }
